@@ -1,0 +1,52 @@
+GET http://localhost:5000
+
+###
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "abc",
+    "password": "123456"
+}
+###
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "abc",
+    "password": "123456"
+}
+
+### Create a new post
+POST http://localhost:5000/api/post
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2MxYjE1MDVjYWIwMjA0MDkwYjhkODEiLCJpYXQiOjE2NzM3MTk0NTUsImV4cCI6MTY3NDE1MTQ1NX0.i9l__kbBR7qUBLdxoS3MT7fYto9uQgSy_CW5cVjtEq4
+
+{
+    "title": "Post1 of abc",
+    "description": "shopping",
+    "url": "shopee.vn"
+}
+
+### Get posts
+GET http://localhost:5000/api/post
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2MxYjE1MDVjYWIwMjA0MDkwYjhkODEiLCJpYXQiOjE2NzM3MTk0NTUsImV4cCI6MTY3NDE1MTQ1NX0.i9l__kbBR7qUBLdxoS3MT7fYto9uQgSy_CW5cVjtEq4
+
+### Get posts with options: search theo field trong model/shema cũng được
+GET http://localhost:5000/api/post?order[]=title&order[]=desc&limit=2&page=2&name=abc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2MxYjE1MDVjYWIwMjA0MDkwYjhkODEiLCJpYXQiOjE2NzM3NzY4NDMsImV4cCI6MTY3NDIwODg0M30.50TOxa5uGO07Ht6iQrvTRAnVMSCVjTA7sVr1BPLZtQ8
+
+### Update a post
+PUT http://localhost:5000/api/post/63c2ef366a70445832d2701e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2MxYjE1MDVjYWIwMjA0MDkwYjhkODEiLCJpYXQiOjE2NzM3MjU0NzcsImV4cCI6MTY3NDE1NzQ3N30.EcfQAr8pr_umKa6YDOtKIvDSq5MeQ-Dfy-oZwKz6ymQ
+
+{
+    "title": "Post1 of abc updated",
+    "description": "shopping",
+    "url": "shopee.vn"
+}
+
+### Delete a post
+DELETE http://localhost:5000/api/post/63c44d9dd0a6ac1b6e90535c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2MxYjE1MDVjYWIwMjA0MDkwYjhkODEiLCJpYXQiOjE2NzM4MTExOTEsImV4cCI6MTY3NDI0MzE5MX0.izLKmeVUnX-gV9Rw01QEEHNsyl4RDrClwuPJKB4M64Y
