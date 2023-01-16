@@ -127,3 +127,14 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
     -   Chú ý req.params not param, lỗi k hiện, chạy bth nhưng sai
 
 ## Notes FrontEnd
+
+### Base
+
+-   `npm i axios react-router-dom`, ngoài ra video có dùng thêm `bootstrap react-bootstrap` nữa mà mình k dùng, cài `tailwind` (css chay cũng được nhưng mình nghĩ project này mục đích chính là cài đặt api và gọi ở FE nên giao diện làm sao cho nhanh nhất là được)
+-   Cài đặt `GlobalStyle` bằng `index.scss`, thêm `customize-cra, babel-plugin-module-resolver`, còn `normalize` nếu dùng `tailwind` thì thôi k cần cài (thậm chí có thể k cài `sass`), `lint staged, husky` k cần thiết vì làm nhóm mới cần những thứ đó, prettier + eslint mình cài global rồi. `.vscode/...` sẽ cần nếu làm team
+    -   `npm i -D customize-cra react-app-rewired babel-plugin-module-resolver sass tailwindcss prettier prettier-plugin-tailwindcss` (scss chỉ dùng cho dev khi build ra css, prettier cần tải cho sort class của tailwind `prettier-plugin-tailwindcss`).
+    -   Và `npx tailwindcss init`
+    -   Copy .babelrc, jsconfig.json, config-overrides.json, sửa package.json phần start, build, test
+    -   Thêm `@tailwind base; @tailwind components; @tailwind utilities;` vào file css global và thêm các config base cần thiết vô (chỉ cần thêm cái text-rendering: optimizeSpeed cho body, còn lại trùng hầu hết vs tailwind rồi).
+    -   Sửa file tailwind.config.js, copy file .prettierc, prettier.config.js để format code tailwind
+    -   Mở commit cài tailwind ở `FE_Effects` mà làm theo cho dễ
