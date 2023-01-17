@@ -135,6 +135,14 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
     -   `npm i -D customize-cra react-app-rewired babel-plugin-module-resolver sass tailwindcss prettier prettier-plugin-tailwindcss` (scss chỉ dùng cho dev khi build ra css, prettier cần tải cho sort class của tailwind `prettier-plugin-tailwindcss`).
     -   Và `npx tailwindcss init`
     -   Copy .babelrc, jsconfig.json, config-overrides.json, sửa package.json phần start, build, test
-    -   Thêm `@tailwind base; @tailwind components; @tailwind utilities;` vào file css global và thêm các config base cần thiết vô (chỉ cần thêm cái text-rendering: optimizeSpeed cho body, còn lại trùng hầu hết vs tailwind rồi).
+    -   Thêm `@tailwind base; @tailwind components; @tailwind utilities;` vào file css global và thêm các config base cần thiết vô (hầu hết trùng vs tailwind rồi)
+        -   Thêm `text-rendering: optimizeSpeed` cho body
+        -   Thêm `button, input, [tabIndex] { border: none; outline: none; }`
+        -   Thêm `svg { display: inline-block }` chung cho `react-icons` nếu tải, mặc định là block xuống dòng (do tailwind thì phải).
     -   Sửa file tailwind.config.js, copy file .prettierc, prettier.config.js để format code tailwind
     -   Mở commit cài tailwind ở `FE_Effects` mà làm theo cho dễ
+
+### Cấu hình routes, tạo page login/register
+
+-   Không tập trung vào phần giao diện nên tự xem
+-   Chú ý cách dùng `<Navigate />` để link đến trang khác

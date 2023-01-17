@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap'); // 'Berkshire Swash', cursive;
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap'); // 'Lobster', cursive;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,4 +15,16 @@ body {
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+svg {
+    // for icons: react-icons, ...
+    display: inline-block;
+}
+
+button,
+input,
+[tabIndex] {
+    outline: none;
+    border: none;
 }
