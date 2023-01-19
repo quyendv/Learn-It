@@ -1,6 +1,6 @@
+import routeConfig from '~/configs/route';
 import { AuthLayout } from '~/layouts';
 import { HomePage, LoginPage, RegisterPage } from '~/pages';
-import routeConfig from './config';
 
 const routes = [
     {

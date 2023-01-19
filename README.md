@@ -146,3 +146,63 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
 
 -   Không tập trung vào phần giao diện nên tự xem
 -   Chú ý cách dùng `<Navigate />` để link đến trang khác
+
+### Redux
+
+-   Video hướng dẫn project này k dùng redux, nên tự học cách cài
+-   Tham khảo 2 trang tiếng việt tóm tắt về redux (note trong bookmark redux): [redux](https://viblo.asia/p/hoc-react-redux-trong-15-phut-1Je5E7q0ZnL), [redux-thunk](https://viblo.asia/p/tim-hieu-ve-redux-thunk-Qbq5Qkm4ZD8#_2-vay-redux-thunk-la-gi-1)
+-   Video clone zingmp3 có cấu hình react-redux [here](https://www.youtube.com/watch?v=heaqlV0nTFc&list=PLGcINiGdJE91fhdIYP2iQ5R2v0wWFrtyF&index=5), ta sẽ làm theo video này là chính
+-   Cài đặt và cấu hình:
+
+    -   `npm i redux react-redux redux-thunk`, chú ý không nhầm với react-thunk
+    -   Tạo src/store bên trong chứa actions/ và reducers/, có thể thêm constants/ chứa file actionsType hoặc đưa file đó vào actions/ cũng được
+    -   Viết các actions và reducers, sau đó tạo reducers/rootReducer.js hoặc reducers/index.js cũng đc, bên trong combineReducers({key: reducer, ...}) rồi export ra
+    -   Tạo thêm utils/redux.js hoặc configs/redux.js hoặc helpers hay folder gì đấy tùy mình, bên trong config theo đoạn video [này](https://youtu.be/heaqlV0nTFc?list=PLGcINiGdJE91fhdIYP2iQ5R2v0wWFrtyF&t=1173)
+        -   Tạo 1 `function reduxConfig` bên trong cấu hình store, persistent(để sau) như bên dưới (vì là fn nên phải gọi hàm lấy value)
+        -   Tạo `store = createStore(rootReducer, applyMiddleware(thunk))` với thunk là có thể viết đc actions dạng {type: ..., payload: ...} và payload có thể là 1 hàm, 1 response gọi api (`Async action`) thay vì 1 giá trị cụ thể nào đó như `plain javascript object` thông thường. Tự xem docs
+    -   Trong src/index.js gọi hàm reduxConfig lấy store, truyền vào `<Provider />` của react-redux
+    -   `redux-thunk` đã note config ở trên, tuy nhiên cách cài đặt actions sẽ khác:
+        -   [Docs](https://redux.js.org/tutorials/fundamentals/part-6-async-logic#fetching-todos-from-a-server), [Vilbo](https://viblo.asia/p/tim-hieu-ve-redux-thunk-Qbq5Qkm4ZD8#_2-vay-redux-thunk-la-gi-1)
+        -   [Tourmaline làm mẫu](https://github.com/quyendv/tourmaline_fs/blob/main/ClientApp/src/store/actions/auth.js), xem cả actions và reducers cho hiểu bao quát rõ ràng
+    -   `redux-persist`: Phần này hơi khó hiểu, và cũng chưa cần áp dụng nếu project ít state (ít state redux cũng k nên dùng luôn)
+        -   Làm theo video này [phút 20](https://youtu.be/jNh3Jvj6egY?list=PLGcINiGdJE91fhdIYP2iQ5R2v0wWFrtyF&t=1219)
+        -   Note trong [bookmark](https://viblo.asia/p/luu-redux-state-vao-local-storage-voi-redux-persist-3P0lPezv5ox) và xem [docs](https://www.npmjs.com/package/redux-persist)
+        -   Tự làm theo video và trang hướng dẫn, chưa chắc chắn nên chưa note lại
+        -   Cực chú ý: chính tả và đường dẫn, vì nó có nhiều đường dẫn trùng nhau sao ấy
+
+-   Tham khảo [tourmaline_fs](https://github.com/quyendv/tourmaline_fs) chắc sẽ có ích
+
+### Axios
+
+-   Video hip06 [here](https://youtu.be/e8UZ4vupLB0?list=PLGcINiGdJE91fhdIYP2iQ5R2v0wWFrtyF)
+-   Xem [tiktok-ui F8](https://github.com/quyendv/tiktok-ui)
+-   Cái phần `Interceptor` để xử lý trước khi gửi và sau khi lấy đc data rất hay: áp dụng refresh_token tự động, ...
+-   `dotenv` được cài sẵn trong create-react-app không cần cài thêm package nhưng đầu keyword phải là `REACT_APP`. Có thể dùng để lưu key REACT_APP_SERVER_URL
+-   Dạng của response trả về: [response schema](https://axios-http.com/docs/res_schema)
+-   Cách xác định dữ liệu trả về từ apiBE của [video hướng dẫn](https://youtu.be/rgFd17fyM4A?list=PL1rR0MZCkCGgrY9XCX1N1_YrhR78S-uuX&t=7762): đoạn trycatch cực kì mới và hữu ích:
+
+    -   Dạng của response nếu success (`!response.data.err` hoặc `response.data.success` tùy cài đặt) đã đính kèm link trên kia, nó là object có key data là cái ta cần quan tâm nhất
+    -   Dạng của error khi nó trycatch được có 2 kiểu:
+        -   Là lỗi trả về(vd 400, 404, ... đều coi là lỗi) sẽ có key `.response` và lúc này nó y hệt success, cũng có key `.data` là object dạng như { err: 1, msg: username is required } mà mình đã cài ở BE. => Ta return error.response.data ra mà xem
+        -   Là lỗi khác (k rõ) thì `return error` đó ra, hoặc `return {err: 1, msg: error.message }`
+    -   => Trong video LearnIt này cài đặt BE hơi khác mình (đang theo hip06) là { success: Boolean, message: ... } chứ k phải { err: Number err, msg: ... }. Vậy nếu để ktra nếu có lỗi không thì chú ý là `response.data.success` hay `!response.data.err` nhé
+
+-   Gửi request
+    -   VDL apis login dạng
+        -   `const response = await axiosInstance.post('auth/login', payload)`
+        -   ```
+              const response = await axiosInstance({
+                  url: 'auth/login',
+                  method: 'POST',
+                  data: payload,
+                  // headers: {
+                  //     'Content-Type': 'application/json',
+                  // },
+              });
+            ```
+-   Axios có thể set default 1 số thông tin, như khi login thì mặc định gửi token đi kèm các request khác: [video](https://youtu.be/rgFd17fyM4A?list=PL1rR0MZCkCGgrY9XCX1N1_YrhR78S-uuX&t=9579), [docs: config default](https://axios-http.com/docs/config_defaults)
+
+### Kết hợp redux và axios:
+
+-   Xem lại code, hầu hết đã note hết lại
+-   action login sẽ gọi api và dispatch action khác, từ action khác đó ta biết đc success hay failuer

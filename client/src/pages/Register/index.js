@@ -1,7 +1,7 @@
 import { FaSignInAlt, FaUnlockAlt, FaUser } from 'react-icons/fa';
 import { MdWavingHand } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import routeConfig from '~/routes/config';
+import routeConfig from '~/configs/route';
 
 function Register() {
     return (
