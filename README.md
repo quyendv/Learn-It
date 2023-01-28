@@ -308,6 +308,9 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
             -   Mình thấy hip06 cài cả start chạy nodemon và babel-node y hệt như run dev, chắc chắn sẽ k tốt bằng 2 cách bên trên vì cả docs babel-node cũng khuyến cáo k nên dùng trong production. Repos [phongtro123](https://github.com/hip06/fullstack-phong-tro-123) phần /server/package.json để tham khảo
             -   => Mình sẽ để nguyên theo cách số 3, nhưng sẽ rút kinh nghiệm cho các project sau
     -   Sau khi Deploy BE xong thì sửa baseURL của axios (mình k dùng .env mà dùng constants variables), đồng thời sửa lai clientURL ở bên BE (sửa trên Paas tức Render, chứ ở local phía server file .env k push lên, đồng thời config đó cài đặt trên paas lúc deploy). Hướng dẫn sửa lại [clientURL](https://youtu.be/ncV0OEa9GoQ?t=477). Chú ý k có dấu '/' ở cuối, Vd: https://learn-it-mern.vercel.app chứ k phải https://learn-it-mern.vercel.app/
+-   Lưu ý:
+    -   MongoDB phải thêm IPAddress để truy cập vào (để thêm everyone), nếu k render cứ lỗi mãi k sử dụng đc DB
+    -   Link phần [network access](https://cloud.mongodb.com/v2/63c19f3ac27c7a78779168f9#/security/network/accessList), chứ k phải database access
 
 ### Đến phần
 
