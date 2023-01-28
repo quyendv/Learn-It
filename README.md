@@ -8,7 +8,7 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
 
 -   `npm i express jsonwebtoken mongoose dotenv bcryptjs cors` (Video dùng 'argon2' cho hash password, tự thay bằng 'bcryptjs')
 -   `npm i -D nodemon`
--   `npm i @babel/core @babel/preset-env @babel/node` để import/export, thêm .babelrc và sửa 'dev' đi
+-   `npm i -D @babel/core @babel/preset-env @babel/node` để import/export, thêm .babelrc và sửa 'dev' đi
 -   Config package.json: 'dev', 'start', 'main'
 -   Setup file server.js
 -   Setup cloud mongoDb (dùng compass hình như chỉ local thôi), để ý đoạn thêm cluster name nếu k nó để mặc định ấy
@@ -281,6 +281,32 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
     -   UPDATE: Note ở phần `Axios` bên trên, [stackoverflow](https://stackoverflow.com/questions/54637071/axios-default-headers-cleared-after-page-refresh-in-react-js)
 -   Thêm Toastify sau khi thực hiện thành công api nào đó: addPost, delPost, ...
 -   Sửa giao diện home khi chưa có post nào
+
+## Deployment
+
+-   Video gốc dùng heroku cho BE (k còn free nữa), và netlify cho FE. Trong hầu hết các video fullstack khác đều thấy như thế, nhưng do heroku có thể lồng client và server vào 1 project mà giờ nó hết hạn nên ta có thể lại tách ra thành 2 project FE và BE rồi đẩy lên github (mà để nguyên vẫn đc sao ấy)
+    -   Video gốc chỉ nên tham khảo phần FE, BE với heroku auto bỏ, k còn free nữa
+    -   Phần deploy FE với Netlify có thể tham khảo cách kéo thả /build trong phần cuối [video này](https://youtu.be/khcjRUZCufs?t=7489)
+    -   Phần deploy BE có lựa chọn khác của hip_06 bằng vercal theo [video này](https://www.youtube.com/watch?v=mvuGRhXeCNo)
+-   Ngoài video này còn 2 video khác của hoidanit (note trên bookmark chrome 'Deploy') dùng vercal cho FE và render cho BE
+    -   [FE](https://www.youtube.com/watch?v=ncV0OEa9GoQ) & [BE](https://www.youtube.com/watch?v=NkulG9hH2LI)
+-   FE deploy có vẻ dễ hơn, nhiều tutorial, BE thì có thể tham khảo thêm [Fly](https://fly.io/), [Railway](https://railway.app/), [Cyclic](https://www.cyclic.sh/)
+
+### Chốt lại
+
+-   Deploy BE bằng render theo hoidanit(hoặc tài liệu khác), FE theo Vercal
+    -   Cách giúp deploy BE nhanh hơn: [video](https://youtu.be/NkulG9hH2LI?t=763). Có vẻ là cách 2 của freecodecamp note bên trên
+-   Cài đặt lại:
+    -   Ẩn .env đi, push .env.example hay gì đó tùy, khi deploy các PaaS (Plastform as a Service) sẽ yêu cầu nhập biến môi trường sau
+        -   Nếu đã add .env rồi phải remove theo cách trên [stackoverflow](https://stackoverflow.com/questions/38983153/git-ignore-env-files-not-working)
+        -   Cụ thể: đứng ở root ( learn-it> ): git rm server/.env --cache
+    -   Sẽ phải sửa phần CLIENT_URL của cors, phần baseURL của axios, ... nói chung các url phải sửa lại
+    -   Test trước các lệnh start, build, ... trước khi deploy vì lỗi có thể còn tồn tại, check local rồi sửa luôn
+        -   Bị lỗi cái server, run dev chạy đc mà start lại lỗi, do cái babel-node ấy.
+            -   Dùng 1 loại thôi, ưu tiên ES6 (import) và để type: module trong package.json. Tham khảo [stackoverflow](https://stackoverflow.com/questions/58384179/syntaxerror-cannot-use-import-statement-outside-a-module)
+            -   Cấu hình babel theo [freecodecamp](https://www.freecodecamp.org/news/setup-babel-in-nodejs/) phần config package.json, nhớ git ignore /build đi. Chưa thử, nhưng nếu làm theo y nguyên có lẽ được
+            -   Mình thấy hip06 cài cả start chạy nodemon và babel-node y hệt như run dev, chắc chắn sẽ k tốt bằng 2 cách bên trên vì cả docs babel-node cũng khuyến cáo k nên dùng trong production. Repos [phongtro123](https://github.com/hip06/fullstack-phong-tro-123) phần /server/package.json để tham khảo
+            -   => Mình sẽ để nguyên theo cách số 3, nhưng sẽ rút kinh nghiệm cho các project sau
 
 ### Đến phần
 

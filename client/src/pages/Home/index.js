@@ -25,11 +25,8 @@ function Home() {
 
     useEffect(() => {
         dispatch(getPosts(accessToken)); // Nếu lưu posts vào localStorage thì chỉ cần load data từ server lúc vào Home, k lưu thì page nào cần đều phải load
-        console.log('render uef');
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    console.log('render', { postSelected, posts });
 
     return (
         <div className="h-screen w-screen bg-home bg-cover bg-center bg-no-repeat">
