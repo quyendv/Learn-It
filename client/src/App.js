@@ -1,15 +1,16 @@
 import { Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import routes from './routes';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ProtectedRoute } from './layouts';
+import { NotFoundPage } from './pages';
+import { privateRoutes, publicRoutes } from './routes';
 
 function App() {
     return (
         <Router>
             <Routes>
-                {routes.map((route, index) => {
+                {publicRoutes.map((route, index) => {
                     const Layout = route.layout || Fragment;
                     const Page = route.component;
-
                     return (
                         <Route
                             key={index}
@@ -22,6 +23,24 @@ function App() {
                         />
                     );
                 })}
+                {privateRoutes.map((route, index) => {
+                    const Layout = route.layout || Fragment;
+                    const Page = route.component;
+                    return (
+                        <Route
+                            key={index}
+                            path={route.path}
+                            element={
+                                <ProtectedRoute>
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                </ProtectedRoute>
+                            }
+                        />
+                    );
+                })}
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </Router>
     );

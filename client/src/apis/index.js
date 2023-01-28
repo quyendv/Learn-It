@@ -2,3 +2,4 @@
 // Hoặc export kiểu { default as authApis } from '...' để import rõ ràng
 
 export * from './auth';
+export * from './post';

@@ -11,7 +11,8 @@ export const register = async (req, res) => {
         //     return badRequest('Missing username and/or password', res);
         // }
 
-        const { error } = joi.object({ username, password }).validate(req.body); // chỉ nhận username, password, k nhận ngoài schema vừa tạo bởi joi.object()
+        const { error } = joi.object({ username, password, confirmPassword: joi.ref('password') }).validate(req.body); // chỉ nhận username, password và confirmPassword, k nhận ngoài schema vừa tạo bởi joi.object() -> confirmPassword import mà k đc, truyền vào ref string key trong schema vừa tạo mới đc sao ấy
+        // -> tuy nhiên phần confirmPassword này nên check ở FE, BE chỉ check data đủ chưa thôi thì hơn
         if (error) return badRequest(error.details[0]?.message, res);
 
         // After validate input form
@@ -32,5 +33,14 @@ export const login = async (req, res) => {
         return res.status(200).json(response);
     } catch (err) {
         return internalServerError(err, res);
+    }
+};
+
+export const getUser = async (req, res) => {
+    try {
+        const response = await services.getUser(req.userId);
+        return res.status(200).json(response);
+    } catch (error) {
+        return internalServerError(error, res);
     }
 };

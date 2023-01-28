@@ -1,16 +1,40 @@
+import { useEffect, useState } from 'react';
 import { FaSignInAlt, FaUnlockAlt, FaUser } from 'react-icons/fa';
 import { MdWavingHand } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import routeConfig from '~/configs/route';
+import { register } from '~/stores/actions/auth';
 
 function Register() {
+    const dispatch = useDispatch();
+    const auth = useSelector((state) => state.auth);
+
+    // Local State
+    const [registerData, setRegisterData] = useState({ username: '', password: '', confirmPassword: '' });
+
+    useEffect(() => {
+        // console.log(auth);
+        // Xử lý show/hide error input
+    }, [auth]);
+
+    // Fn
+    const handleChangeForm = (e) => {
+        setRegisterData({ ...registerData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(register(registerData));
+    };
+
     return (
         <div className="h-[400px] w-[500px] bg-[#19181852] p-9 shadow-sm shadow-[#ffffff1a]">
             <h1 className="mb-8 text-center font-lobster text-4xl text-white">
                 Join now
                 <MdWavingHand className="ml-3 inline-block" />
             </h1>
-            <form action="">
+            <form action="" onSubmit={handleSubmit}>
                 {/* Username */}
                 <div className="relative rounded-md bg-[#ffffff1a] p-2">
                     <FaUser className="absolute left-3 top-1/2 w-5 -translate-y-1/2 text-red-500" />
@@ -18,6 +42,9 @@ function Register() {
                         type="text"
                         className="w-full bg-transparent pl-8 text-white"
                         placeholder="Username"
+                        name='username'
+                        value={registerData.username}
+                        onChange={handleChangeForm}
                         required
                     />
                 </div>
@@ -28,6 +55,9 @@ function Register() {
                         type="password"
                         className="w-full bg-transparent pl-8 text-white"
                         placeholder="Password"
+                        name='password'
+                        value={registerData.password}
+                        onChange={handleChangeForm}
                         required
                     />
                 </div>
@@ -38,6 +68,9 @@ function Register() {
                         type="password"
                         className="w-full bg-transparent pl-8 text-white"
                         placeholder="Confirm Password"
+                        name='confirmPassword'
+                        value={registerData.confirmPassword}
+                        onChange={handleChangeForm}
                         required
                     />
                 </div>

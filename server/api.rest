@@ -17,6 +17,10 @@ Content-Type: application/json
     "password": "123456"
 }
 
+### Get User
+GET http://localhost:5000/api/auth/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2MxYjE1MDVjYWIwMjA0MDkwYjhkODEiLCJpYXQiOjE2NzQxMDE2NTMsImV4cCI6MTY3NDUzMzY1M30.xBpPvnAmQq5IctAWY_CDxXthHHK7G4raSy8vB2mHu0w
+
 ### Create a new post
 POST http://localhost:5000/api/post
 Content-Type: application/json

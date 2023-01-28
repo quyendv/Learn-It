@@ -13,7 +13,7 @@ export const register = ({ username, password }) =>
                 resolve({
                     err: 1,
                     msg: 'Username is already registered',
-                    access_token: null,
+                    accessToken: null,
                 });
             }
 
@@ -29,7 +29,7 @@ export const register = ({ username, password }) =>
             resolve({
                 err: 0,
                 msg: 'Register successfully',
-                access_token: `Bearer ${accessToken}`,
+                accessToken: `Bearer ${accessToken}`,
             });
         } catch (error) {
             reject(error);
@@ -53,5 +53,22 @@ export const login = ({ username, password }) =>
                 msg: isValidUser ? 'Login successfully' : response ? 'Password is wrong' : 'Username is not registered',
                 accessToken: isValidUser ? `Bearer ${accessToken}` : null,
             });
-        } catch (err) {}
+        } catch (error) {
+            reject(error);
+        }
+    });
+
+export const getUser = (userId) =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const response = await User.findById(userId).select('-password'); // hoặc findById(userId, '-password') -> không trả về pass
+
+            resolve({
+                err: response ? 0 : 1,
+                msg: response ? 'Get user infos successfully' : 'User not found',
+                user: response ? response : null, // response || null
+            });
+        } catch (error) {
+            reject(error);
+        }
     });

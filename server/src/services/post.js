@@ -1,5 +1,6 @@
 import Post from '../models/Post';
 
+// Thiếu, Cái này model cần có ít nhất 1 key làm unique, chứ vầy các post giống nhau hết vẫn đúng
 export const createPost = ({ title, description, url, status }, userId) =>
     new Promise(async (resolve, reject) => {
         try {
@@ -50,7 +51,7 @@ export const getPosts = (userId, { page, limit, order, name, ...query }) =>
 
             resolve({
                 err: 0,
-                response: posts,
+                posts,
             });
         } catch (error) {
             reject(error);

@@ -2,12 +2,7 @@ import routeConfig from '~/configs/route';
 import { AuthLayout } from '~/layouts';
 import { HomePage, LoginPage, RegisterPage } from '~/pages';
 
-const routes = [
-    {
-        path: routeConfig.home,
-        layout: null,
-        component: HomePage,
-    },
+const publicRoutes = [
     {
         path: routeConfig.login,
         layout: AuthLayout,
@@ -20,4 +15,12 @@ const routes = [
     },
 ];
 
-export default routes;
+const privateRoutes = [
+    {
+        path: routeConfig.home,
+        layout: null,
+        component: HomePage,
+    },
+];
+
+export { publicRoutes, privateRoutes };

@@ -55,6 +55,7 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
 -   Auth
     -   Hiện tại mình chưa biết có hàm nào tương tự như findOrCreate như sequelize không, tìm k thấy. Nên sẽ xử lý minh bạch theo kiểu tìm bản ghi bằng findOne và nếu chưa có thì lưu bằng save() rồi tạo luôn accessToken vs jwt.
     -   Bị lỗi cc gì phải cấu hình lại cái atlas, xóa project đi cài lại, cay vc
+    -   Thêm api getUser nhưng k trả về password (vì response trả về bị lộ)
     -   RefreshToken để sau, làm tương tự như bên SERN thôi
 -   Post
 
@@ -146,6 +147,9 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
 
 -   Không tập trung vào phần giao diện nên tự xem
 -   Chú ý cách dùng `<Navigate />` để link đến trang khác
+-   ProtectedRoute:
+    -   Có thể tạo component như layout (bọc lấy element của Route) check trước khi trả về children (hoặc Outlet tùy config): [vilbo](https://viblo.asia/p/react-router-dom-v6-maGK7BQB5j2#_11-protected-routes-21)
+    -   Hoặc có thể tạo component ProtectedRoute trả về `<Route {...props} element={check đk} />` : [video](https://youtu.be/rgFd17fyM4A?list=PL1rR0MZCkCGgrY9XCX1N1_YrhR78S-uuX&t=10860). Tuy nhiên cách này k dùng được do bản cũ rồi sao ấy
 
 ### Redux
 
@@ -170,6 +174,8 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
         -   Tự làm theo video và trang hướng dẫn, chưa chắc chắn nên chưa note lại
         -   Cực chú ý: chính tả và đường dẫn, vì nó có nhiều đường dẫn trùng nhau sao ấy
 
+-   Chú ý: trong action dạng thunk function, khi dispatch tiếp 1 action khác, ta vẫn có thể return value sau đó được, nhưng nếu value đó là response của 1 api nào thì nó sẽ dạng Promise, cái này có thể dùng để xem xét sau khi gọi action kết quả như thế nào (login, register, ...)
+
 -   Tham khảo [tourmaline_fs](https://github.com/quyendv/tourmaline_fs) chắc sẽ có ích
 
 ### Axios
@@ -177,6 +183,7 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
 -   Video hip06 [here](https://youtu.be/e8UZ4vupLB0?list=PLGcINiGdJE91fhdIYP2iQ5R2v0wWFrtyF)
 -   Xem [tiktok-ui F8](https://github.com/quyendv/tiktok-ui)
 -   Cái phần `Interceptor` để xử lý trước khi gửi và sau khi lấy đc data rất hay: áp dụng refresh_token tự động, ...
+    -   Nhưng nếu dùng axios instance phải dùng instance đó để set chứ k phải axios import từ 'axios'
 -   `dotenv` được cài sẵn trong create-react-app không cần cài thêm package nhưng đầu keyword phải là `REACT_APP`. Có thể dùng để lưu key REACT_APP_SERVER_URL
 -   Dạng của response trả về: [response schema](https://axios-http.com/docs/res_schema)
 -   Cách xác định dữ liệu trả về từ apiBE của [video hướng dẫn](https://youtu.be/rgFd17fyM4A?list=PL1rR0MZCkCGgrY9XCX1N1_YrhR78S-uuX&t=7762): đoạn trycatch cực kì mới và hữu ích:
@@ -188,7 +195,10 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
     -   => Trong video LearnIt này cài đặt BE hơi khác mình (đang theo hip06) là { success: Boolean, message: ... } chứ k phải { err: Number err, msg: ... }. Vậy nếu để ktra nếu có lỗi không thì chú ý là `response.data.success` hay `!response.data.err` nhé
 
 -   Gửi request
-    -   VDL apis login dạng
+
+    -   Lưu ý: khi url api dạng .../api/auth/login, nếu set baseUrl là .../api (k có '/' ở cuối) thì khi gửi request truyền url là 'login' hay '/login' đều vẫn được. => Tức mình có thể k cần '/' mà aixos tự hiểu sao ấy
+
+    -   VD apis login dạng
         -   `const response = await axiosInstance.post('auth/login', payload)`
         -   ```
               const response = await axiosInstance({
@@ -200,9 +210,79 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
                   // },
               });
             ```
+    -   Gửi kèm header authorization [here](https://flaviocopes.com/axios-send-authorization-header/)
+
+        -   ```
+                const response = await axiosInstance({
+                    url,
+                    method: ...,
+                    data,
+                    headers: {
+                        Authorization: 'Bearer token'
+                    }
+                })
+            ```
+            hoặc
+            ```
+                const response = await axiosInstance.post(url, data nma nếu là get thì BỎ QUA tham số này đc, {
+                    headers: {
+                        Authorization: 'Bearer token'
+                    }
+                })
+            ```
+        -   Tuy nhiên ta sẽ làm theo cách set default để luôn gửi kèm token ở mỗi request
+
 -   Axios có thể set default 1 số thông tin, như khi login thì mặc định gửi token đi kèm các request khác: [video](https://youtu.be/rgFd17fyM4A?list=PL1rR0MZCkCGgrY9XCX1N1_YrhR78S-uuX&t=9579), [docs: config default](https://axios-http.com/docs/config_defaults)
+    -   Như vậy sau khi login xong, token sẽ lưu vào localStorage, đồng thời login success sẽ gọi hàm set default cho header gửi kèm token, ngược lại nếu token k có phải xóa luôn đi default đó. Sau này gửi request khác đều không phải send lại token.
+        -   Nhưng để ý token server trả về có `Bearer ...` hay chưa (làm theo hip06 thì có, video này thì không), nếu có thì cứ gửi thôi, k thì phải thêm vào cùng với token để gửi đi
+        -   Và đặc biệt nếu dùng axios instance phải dùng instance đó để set, giống như `Interceptor` ở trên
+    -   Ngoài default cho headers.common['Authorization'] ra còn có thể config default cho baseURL, ... Xem trên docs
+    -   UPDATE: Vấn đề là khi login xong, setAuthToken rồi nhưng redirect đến '/' - Home sẽ lại mất, cần phải set lại trong useEffect
+        -   Tham khảo [stackoverflow](https://stackoverflow.com/questions/54637071/axios-default-headers-cleared-after-page-refresh-in-react-js)
+        -   Hướng giải quyết có vẻ là luôn set lại nếu page reload (có thể bằng useEffect) hoặc dùng `Interceptor` (nhưng nhữn request k cần token như login, register lại k hợp lý và có thể rò rỉ, mặc dù thừa token vẫn chạy nếu BE k check gửi thừa như mình đang làm - à mà khi logout thì login gửi kèm token cũ đã bỏ chắc k sao). Hoặc nữa là luôn set lại ở những page đó khi reload (có thể dùng useEffet)
+        -   Chọn gửi kèm token cho lành, đỡ config phức tạp rườm rà
 
 ### Kết hợp redux và axios:
 
 -   Xem lại code, hầu hết đã note hết lại
 -   action login sẽ gọi api và dispatch action khác, từ action khác đó ta biết đc success hay failuer
+-   authReducer có thông tin `user` được gọi qua api, vậy nên trước khi gán ta phải await loadUser đã (trong actions/auth.js) nếu k nó sẽ là promise k lưu vào localStorage được (nếu k lưu được thì khi token chưa hết hạn tức chưa phải login lại <nếu chưa xét đến refreshToken> sẽ khó lấy `user`, chỉ có luôn gọi khi dùng hoặc login lại)
+-   Video làm là vào trang '/' sẽ chuyển đến '/login', sau khi login thành công thì đến '/dashboard', tuy nhiên mình thích check đk ở '/' nếu chưa thì đến login còn login rồi thì quay về home với giao diện home được render ra như dashboard
+    -   Chính vì vậy phải check login chưa bằng cách lưu accessToken hoặc isAuthenticated vào localStorage (bằng redux-persist), vì khi khởi động app nó sẽ lấy thông tin đó để ktra chứ k phải chạy lại dữ liệu gì cả
+    -   Ban đầu tự làm là khi bấm login (useEffect gọi khi auth thay đổi) ta sẽ check nếu đăng nhập thành công thì chuyển đến '/', '/home' hoặc '/dashboard' gì tùy, còn lỗi thì hiện thông báo lỗi ra giao diện người dùng (chưa làm cái này). Tuy nhiên xem [video](https://youtu.be/rgFd17fyM4A?list=PL1rR0MZCkCGgrY9XCX1N1_YrhR78S-uuX&t=10258) thì thấy nên gộp lại và check điều kiện ở layout Auth chứa cả page Login và Register, như vậy sẽ đúng và tiện hơn khi k phải lặp code ở các page Auth/....
+
+### Link dữ liệu FE và BE:
+
+-   BE buộc phải có 1 cấu trúc cố định, VD hiện tại thường là {err, msg, ...} nếu true thì có thể có thêm accessToken (thường là login, register thôi), user/post/... nhưng sau nên đổi thành response là đúng nhất, dễ lấy
+
+### Modal
+
+-   Khi close nhớ clear input value đi, nếu k lần sau mở vẫn giữ state value cũ
+
+### Chú ý cách cập nhật array trong reducer
+
+-   Trong reducer nếu state chứa array, ta sẽ phải xử lý thêm xóa phần tử (đã note trong phần cơ bản nhưng phải nhắc lại)
+    -   Add: dùng spread thêm vào cuối đơn giản nhất
+    -   Delete: có dùng filter hoặc splice, tham khảo [stackoverflow](https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array)
+        -   Nếu dùng splice phải để ý, arrayName.splice(..) nó sẽ thực hiện xóa và thêm element trên array gốc, đồng thời trả về 1 mảng array `BỊ XÓA`, vậy nên `KHÔNG` đc gán `originArray = originArray.splice(...)`. Xem kĩ tại [mozilla](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+    -   Update:
+        -   Tìm index khớp với index của newElement cần update, sau đó sửa theo index: array[index] = newElement. Tham khảo [stackoverflow](https://stackoverflow.com/questions/35206125/how-can-i-find-and-update-values-in-an-array-of-objects)
+        -   Hoặc dùng map, cũng tương tự, xem [video](https://youtu.be/rgFd17fyM4A?list=PL1rR0MZCkCGgrY9XCX1N1_YrhR78S-uuX&t=18863)
+
+### Chưa xử lý:
+
+-   Hình như mỗi lần chạy lại app đều phải loadUser lại để nó set default cho axios (mà k biết cho axios hay axios instance)
+-   Do code khác video nên chưa làm đc cách chuyển sang trang khác load 1 lúc, mới chỉ biết navigate về, loading tạm để sau
+-   Khi xóa user thì phải xóa post của user đó đi nữa
+-   Mình code sau khi gọi dispatch(login/register) thì đều thực hiện loadUser (load thông tin user, và set authorization default cho axios instance) tuy nhiên việc load thông tin thì ok, nhưng việc setDefault thì k đc khi reload lại (lần đầu login/register sau đó redirect đến home thì ok, nhưng reload lại mới lỗi)
+    -   Có vẻ như mỗi lần reload lại page đều cần set default 1 lần ?? Nên việc login xong setAuthToken rồi chuyển đến '/' thì ok nhưng reload lại cái là mất phải set lại
+    -   Hoặc ở path root '/' - Home phải set token (useEffect) mới hiệu quả chứ k phải sau khi redirect đến '/' chăng ?
+    -   Hoặc cho chắc, luôn gửi kèm token thay vì set default
+    -   UPDATE: Note ở phần `Axios` bên trên, [stackoverflow](https://stackoverflow.com/questions/54637071/axios-default-headers-cleared-after-page-refresh-in-react-js)
+-   Thêm Toastify sau khi thực hiện thành công api nào đó: addPost, delPost, ...
+-   Sửa giao diện home khi chưa có post nào
+
+### Đến phần
+
+-   Tạo model create post: https://youtu.be/rgFd17fyM4A?list=PL1rR0MZCkCGgrY9XCX1N1_YrhR78S-uuX&t=15982
+-   Deploy: https://youtu.be/rgFd17fyM4A?list=PL1rR0MZCkCGgrY9XCX1N1_YrhR78S-uuX&t=20576

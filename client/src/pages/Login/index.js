@@ -1,24 +1,23 @@
-import { FaHandPointDown, FaSignInAlt, FaUnlockAlt, FaUser } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
-import routeConfig from '~/configs/route';
-import * as apis from '~/apis';
 import { useEffect, useState } from 'react';
+import { FaHandPointDown, FaSignInAlt, FaUnlockAlt, FaUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, loginFail, loginSuccess } from '~/stores/actions/auth';
+import { Link } from 'react-router-dom';
+import routeConfig from '~/configs/route';
+import { login } from '~/stores/actions/auth';
 
 function Login() {
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
-    const navigate = useNavigate();
 
     // LocalState
     const [loginData, setLoginData] = useState({ username: '', password: '' });
 
     useEffect(() => {
-        console.log(auth);
-        if (auth.accessToken) {
-            navigate('/');
+        if (auth.isAuthenticated) {
+            // navigate('/'); // ta sẽ navigate ở layout Auth thay vì ở đây do khi đã đăng nhập thì k vào đc login, register nữa, luôn đẩy ra '/' hoặc '/dashboard'
+            // Xử lý xóa error form: later
         } else {
+            // Add error msg form: later
         }
     }, [auth]);
 
@@ -27,9 +26,10 @@ function Login() {
         setLoginData({ ...loginData, [e.target.name]: e.target.value }); // Chú ý cách gộp các input thành 1 object và dùng chung 1 hàm onChange
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(login(loginData)); // dispatch xong store.auth chưa update luôn ngay bên dưới, mà phải dùng useEffect (với deps auth) mới bắt đc thay đổi rồi xử lý như nào
+        // có thể đặt responseData = dispatch(login(loginData)) nếu như trong thunk function có return responseData lúc gọi api, responseData trả về là 1 Promise, cần .then để lấy value
     };
 
     return (
