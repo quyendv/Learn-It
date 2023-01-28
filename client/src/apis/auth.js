@@ -18,7 +18,7 @@ export const login = (data) =>
             // resolve(response); // theo Hip06
             resolve(response.data);
         } catch (error) {
-            if (error.response.data) reject(error.response.data);
+            if (error.response?.data) reject(error.response.data);
             else
                 reject({
                     err: 1,

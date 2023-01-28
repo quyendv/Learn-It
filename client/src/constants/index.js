@@ -17,7 +17,8 @@ export const actionTypes = {
     FIND_POST: 'FIND_POST',
 };
 
-export const apiUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:5000/api' : 'someDeployURL';
+export const apiUrl =
+    process.env.NODE_ENV !== 'production' ? 'http://localhost:5000/api' : 'https://learn-it-be.onrender.com/api'; // NODE_ENV build tự ghi đè, deploy BE xong thì pass url mới /api vào
 
 export const postStatus = {
     TO_LEARN: 'TO LEARN',

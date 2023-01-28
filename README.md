@@ -307,6 +307,7 @@ Link tutorial for project [here](https://www.youtube.com/watch?v=rgFd17fyM4A&lis
             -   Cấu hình babel theo [freecodecamp](https://www.freecodecamp.org/news/setup-babel-in-nodejs/) phần config package.json, nhớ git ignore /build đi. Chưa thử, nhưng nếu làm theo y nguyên có lẽ được
             -   Mình thấy hip06 cài cả start chạy nodemon và babel-node y hệt như run dev, chắc chắn sẽ k tốt bằng 2 cách bên trên vì cả docs babel-node cũng khuyến cáo k nên dùng trong production. Repos [phongtro123](https://github.com/hip06/fullstack-phong-tro-123) phần /server/package.json để tham khảo
             -   => Mình sẽ để nguyên theo cách số 3, nhưng sẽ rút kinh nghiệm cho các project sau
+    -   Sau khi Deploy BE xong thì sửa baseURL của axios (mình k dùng .env mà dùng constants variables), đồng thời sửa lai clientURL ở bên BE (sửa trên Paas tức Render, chứ ở local phía server file .env k push lên, đồng thời config đó cài đặt trên paas lúc deploy). Hướng dẫn sửa lại [clientURL](https://youtu.be/ncV0OEa9GoQ?t=477). Chú ý k có dấu '/' ở cuối, Vd: https://learn-it-mern.vercel.app chứ k phải https://learn-it-mern.vercel.app/
 
 ### Đến phần
 
