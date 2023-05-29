@@ -94,3 +94,35 @@ input:-webkit-autofill:active {
         // Chả css đc mấy, kể cả cursor-pointer
     }
 }
+
+.logo {
+    background: #bab9c4; /* fallback for old browsers */
+    background: linear-gradient(to right, #fdeff9, #ec38bc,
+     #7303c0, #e81e1e, #7303c0, #ec38bc, #fdeff9);
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.8);
+    background-size: 400% 100%;
+    background-position: 0 0;
+    animation: animateLogo 8s linear infinite;
+    @keyframes animateLogo {
+        to {
+            background-position: 400% 0;
+        }
+    }
+}
+
+.singlePost {
+    &.toLearn {
+        background: linear-gradient(145deg, #e4b0b0E6, #ffd2d2E6);
+        box-shadow: 5px 5px 8px #654e4e, -5px -5px 8px #cccccc;
+    }
+    &.learning {
+        background: #ecf5a8e6;
+        box-shadow: 5px 5px 8px #654e4e, -5px -5px 8px #cccccc;
+    }
+    &.learned {
+        background: #98e6c2E6;
+        box-shadow: 5px 5px 8px #654e4e, -5px -5px 8px #cccccc;
+    }
+}

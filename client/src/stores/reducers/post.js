@@ -6,6 +6,8 @@ const initState = {
 };
 
 const postReducer = (state = initState, action) => {
+    // TODO: filter posts
+
     switch (action.type) {
         case actionTypes.POST_LOADED_SUCCESS:
             return {

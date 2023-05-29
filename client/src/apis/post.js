@@ -1,5 +1,7 @@
 import axiosInstance from '~/configs/axios';
 
+// TODO: Handle getPosts next page
+
 export const getPosts = (accessToken) =>
     new Promise(async (resolve, reject) => {
         try {

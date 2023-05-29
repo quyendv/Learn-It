@@ -4,8 +4,8 @@ const initState = {
     // authLoading: true,
     isAuthenticated: false,
     accessToken: null, // chỉ lưu token vào localStorage thôi
-    user: null, // thông tin user tuyệt đối k lưu vào localStorage, nhớ await loadUser rồi mới gán nếu k nó là promise không lưu vào localStorage được
-    msg: '', // cái này có thể k cần, (thường dùng để phân biệt các message khi login/register thôi, chắc sau quy ước mã code thì hơn)
+    user: null,
+    msg: '', // cái này có thể k cần, (thường dùng để phân biệt các message khi login/register)
 };
 
 // Đm lỡ thêm async vào hàm authReducer lúc khởi tạo, bảo sao lỗi mãi k chịu update

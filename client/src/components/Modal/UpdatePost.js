@@ -105,7 +105,7 @@ function UpdatePostModal({ show = false }) {
                         type="submit"
                         className="rounded-md bg-blue-500 px-2 py-1 text-white transition hover:-translate-y-1 hover:opacity-80"
                     >
-                        Learn It
+                        Save
                     </button>
                     <button
                         type="reset"

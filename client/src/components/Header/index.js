@@ -1,44 +1,71 @@
+import { BiLogOut } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import routeConfig from '~/configs/route';
 import { logout } from '~/stores/actions/auth';
+import UserMenu from '../UserMenu';
 
 function Header() {
     const auth = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     return (
-        <div className="flex h-headerH items-center gap-4 px-10">
-            <Link to={routeConfig.home} className="font-lobster text-4xl text-white">
+        <header className="flex h-headerH items-center gap-8 px-5 md:px-10">
+            <Link to={routeConfig.home} className="logo font-lobster text-4xl text-white transition lg:text-5xl">
                 Learn It
             </Link>
 
-            <nav className="flex flex-1 justify-center gap-2 text-lg text-white">
-                <Link className="px-4 py-2">Home</Link>
-                <Link className="px-4 py-2">About</Link>
-                <Link className="px-4 py-2">Contact</Link>
+            <nav className="hidden flex-1 justify-start gap-2 text-lg font-bold uppercase text-white md:flex">
+                <NavLink
+                    to={routeConfig.home}
+                    end
+                    className={({ isActive }) =>
+                        `rounded-md px-3 py-2 transition-all ${isActive ? 'text-red-500' : 'hover:opacity-70'}`
+                    }
+                >
+                    Home
+                </NavLink>
+                <NavLink
+                    to={routeConfig.about}
+                    end
+                    className={({ isActive }) =>
+                        `rounded-md px-3 py-2 transition-all ${isActive ? 'text-red-500' : 'hover:opacity-70'}`
+                    }
+                >
+                    About
+                </NavLink>
+                <NavLink
+                    to={routeConfig.contact}
+                    end
+                    className={({ isActive }) =>
+                        `rounded-md px-3 py-2 transition-all ${isActive ? 'text-red-500' : 'hover:opacity-70'}`
+                    }
+                >
+                    Contact
+                </NavLink>
             </nav>
 
-            <div className="flex items-center gap-2.5">
-                <p className="text-white">
-                    Welcome <span className="font-bold text-red-500">{auth.user.username}</span>
+            <div className="ml-auto flex items-center gap-2 text-lg text-white">
+                <p className="space-x-2">
+                    <span className="hidden select-none font-medium min-[400px]:inline-block">Welcome</span>
+                    <span className="font-bold italic text-red-500">{auth.user.username}</span>
                 </p>
-                <div className="h-8 w-8 rounded-full">
-                    <img
-                        className="rounded-full object-cover"
-                        src="https://avatars.githubusercontent.com/u/80147846?v=4"
-                        alt="avatar"
-                    />
-                </div>
+                {/* UserDropdown: show & md:hidden */}
+                <UserMenu />
+
+                {/* hidden & md:show */}
+                <span className="hidden h-10 w-0.5 bg-gray-300 md:block"></span>
+                <button
+                    className="hidden items-center gap-1 font-medium transition-all hover:-translate-y-1 hover:opacity-80 md:flex"
+                    onClick={() => dispatch(logout())}
+                >
+                    <span>
+                        <BiLogOut size={20} />
+                    </span>
+                    <span>Logout</span>
+                </button>
             </div>
-            <div
-                onClick={() => {
-                    dispatch(logout());
-                }}
-            >
-                Logout Temp
-            </div>
-        </div>
+        </header>
     );
 }
 

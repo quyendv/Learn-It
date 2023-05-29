@@ -29,7 +29,7 @@ function Home() {
     }, []);
 
     return (
-        <div className="h-screen w-screen bg-home bg-cover bg-center bg-no-repeat">
+        <div className="relative z-0 min-h-screen w-screen bg-home bg-cover bg-center bg-no-repeat">
             <Header />
             <div className="grid grid-cols-1 gap-5 p-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                 {posts.map((post) => (
@@ -45,7 +45,7 @@ function Home() {
             {/* Toggle CreatePost Modal Btn*/}
             <Tippy content="Add a new thing to learn">
                 <div
-                    className="absolute right-10 bottom-10 cursor-pointer text-red-500"
+                    className="fixed right-12 bottom-12 cursor-pointer text-red-500"
                     onClick={() => {
                         dispatch(setCreatePostModal(true));
                     }}

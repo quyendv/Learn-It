@@ -1,6 +1,6 @@
 import routeConfig from '~/configs/route';
 import { AuthLayout } from '~/layouts';
-import { HomePage, LoginPage, RegisterPage } from '~/pages';
+import { ComingSoon, HomePage, LoginPage, RegisterPage } from '~/pages';
 
 const publicRoutes = [
     {
@@ -20,6 +20,16 @@ const privateRoutes = [
         path: routeConfig.home,
         layout: null,
         component: HomePage,
+    },
+    {
+        path: routeConfig.contact,
+        layout: null,
+        component: ComingSoon,
+    },
+    {
+        path: routeConfig.about,
+        layout: null,
+        component: ComingSoon,
     },
 ];
 
